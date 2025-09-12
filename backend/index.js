@@ -1,62 +1,19 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const mysql = require("mysql2");
+const db = require("./db");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
-const db = require("./db");
-
+const configureExpress = require("./config/expressConfig");
 const { router: loginrouter } = require("./auth");
 const routerIndex = require("./routers/index.js");
 const dotenv = require("dotenv");
 dotenv.config();
-
 const app = express();
-const cors = require("cors");
-app.use(cors());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-app.use("/uploads", express.static("uploads"));
-
-// MySQL connection
-// const db = mysql.createConnection({
-//   host: process.env.DB_HOST || localhost,// replace with your MySQL host
-//   user: process.env.DB_USER,       // replace with your MySQL username
-//   password: process.env.DB_PASSWORD,       // replace with your MySQL password
-//   database: process.env.DB_NAME
-// });
-
-// db.connect((err) => {
-//   if (err) {
-//     console.error("Error connecting to MySQL:", err);
-//     return;
-//   }
-//   console.log("✅ Connected to MySQL");
-// });
-
-// Route for login
-
+configureExpress(app);
 app.use('/',loginrouter);
-// app.post("/login", (req, res) => {
-//   const { email, password } = req.body;
-
-//   const query = "SELECT * FROM admin_users WHERE email = ? AND password = ?";
-//   db.query(query, [email, password], (err, result) => {
-//     if (err) {
-//       console.error(err);
-//       return res.status(500).json({ message: "Server error" });
-//     }
-
-//     if (result.length > 0) {
-//       res.json({ success: true, message: "Login successful ✅" });
-//     } else {
-//       res.status(401).json({ success: false, message: "Invalid credentials ❌" });
-//     }
-//   });
-// });
-// Get Hero Content
 app.get("/hero", (req, res) => {
+  console.log("Fetching hero content");
   const query = "SELECT hero_title, hero_subtitle FROM site_content WHERE id = 1";
   db.query(query, (err, result) => {
     if (err) return res.status(500).json({ message: "DB fetch error" });
@@ -238,7 +195,7 @@ app.use('/api',routerIndex);
 
 
 // Start server
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on http://localhost:${PORT}`);
+  console.log(`🚀 Server running on PORT : ${PORT}`);
 });
