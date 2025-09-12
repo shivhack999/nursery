@@ -11,6 +11,15 @@ dotenv.config();
 const app = express();
 
 configureExpress(app);
+app.get("/", (req, res) => {
+  res.send("Hello, World!");
+});
+
+
+
+
+
+
 app.use('/',loginrouter);
 app.get("/hero", (req, res) => {
   console.log("Fetching hero content");
