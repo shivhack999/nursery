@@ -26,10 +26,6 @@ module.exports = function configureExpress(app) {
 
   // Static files
   app.use("/uploads", express.static(path.join(__dirname, "../../uploads")));
-  app.get("/", (req, res) => {
-    console.log("Root path accessed");
-    res.send("Hello, World!");
-  });
   // View engine
   app.set("view engine", "ejs");
   app.set("views", path.join(__dirname, "../../views"));
