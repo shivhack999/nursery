@@ -4,17 +4,18 @@ import { ChevronLeft, ChevronRight } from "lucide-react"; // icons
 
 export default function Showcase() {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const IMAGE_URL = import.meta.env.VITE_API_BASE_URL_FOR_IMAGES;
   const [images, setImages] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/showcase`)
+    fetch(`${BASE_URL}/frontend/showcase`)
       .then((res) => res.json())
       .then((data) => setImages(data))
       .catch((err) => console.error(err));
   }, []);
-
+  
   // scroll functions
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -52,7 +53,7 @@ export default function Showcase() {
                       >
                         <div className="overflow-hidden rounded-lg shadow-md">
                           <img
-                            src={`${BASE_URL}/uploads/${img.filename}`}
+                            src={`${IMAGE_URL}/uploads/${img.filename}`}
                             alt="Showcase"
                             className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                           />
@@ -105,7 +106,7 @@ export default function Showcase() {
                   >
                     <div className="overflow-hidden rounded-lg shadow-md">
                       <img
-                        src={`${BASE_URL}/uploads/${img.filename}`}
+                        src={`${IMAGE_URL}/uploads/${img.filename}`}
                         alt="Showcase"
                         className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                       />

@@ -1,16 +1,16 @@
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 export default function Services() {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/services`)
+    fetch(`${BASE_URL}/frontend/services`)
       .then((res) => res.json())
       .then((data) => setServices(data))
       .catch((err) => console.error("Fetch error:", err));
-  }, []);
 
+  }, []);
   return (
     <section id="services" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">

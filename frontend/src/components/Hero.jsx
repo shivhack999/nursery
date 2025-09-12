@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion } from "framer-motion";history
 import { useEffect, useState } from "react";
 
 export default function Hero() {
@@ -9,7 +9,7 @@ export default function Hero() {
   });
 
   useEffect(() => {
-    fetch(`${BASE_URL}/hero`)
+    fetch(`${BASE_URL}/frontend/hero`)
       .then((res) => res.json())
       .then((data) => setHeroData(data))
       .catch((err) => console.error(err));
