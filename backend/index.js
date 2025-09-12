@@ -1,13 +1,12 @@
 const express = require("express");
-const db = require("./db");
-const multer = require("multer");
+const dotenv = require("dotenv").config();
+// const db = require("./db");
+// const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
 const configureExpress = require("./config/expressConfig");
-const { router: loginrouter } = require("./auth");
-const routerIndex = require("./routers/index.js");
-const dotenv = require("dotenv");
-dotenv.config();
+// const { router: loginrouter } = require("./auth");
+// const routerIndex = require("./routers/index.js");
 const app = express();
 
 configureExpress(app);
