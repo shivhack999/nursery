@@ -43,9 +43,9 @@ export default function Showcase() {
                 {/* Scroll container */}
                 <div ref={scrollRef} className="overflow-x-auto scrollbar-hide">
                   <div className="flex gap-6 min-w-max">
-                    {images.slice(0, 6).map((img) => (
+                    {images?.slice(0, 6).map((img) => (
                       <motion.div
-                        key={img.id}
+                        key={img?.id}
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
@@ -53,7 +53,7 @@ export default function Showcase() {
                       >
                         <div className="overflow-hidden rounded-lg shadow-md">
                           <img
-                            src={`${IMAGE_URL}/uploads/${img.filename}`}
+                            src={`${IMAGE_URL}/uploads/${img?.filename}`}
                             alt="Showcase"
                             className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                           />
@@ -99,14 +99,14 @@ export default function Showcase() {
               >
                 {images.map((img) => (
                   <motion.div
-                    key={img.id}
+                    key={img?.id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="relative group"
                   >
                     <div className="overflow-hidden rounded-lg shadow-md">
                       <img
-                        src={`${IMAGE_URL}/uploads/${img.filename}`}
+                        src={`${IMAGE_URL}/uploads/${img?.filename}`}
                         alt="Showcase"
                         className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                       />
