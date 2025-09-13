@@ -1,4 +1,4 @@
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Services() {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;

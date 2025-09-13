@@ -2,11 +2,12 @@ const db = require('../../config/db/mysql.db');
 const hero = (req, res) => {
     try {
         const query = "SELECT hero_title, hero_subtitle FROM site_content WHERE id = 1";
-        db.query(query, (err, result) => {
+        db?.query(query, (err, result) => {
             if (err) return res.status(500).json({ message: "DB fetch error" });
-            res.json(result[0]);
+            res.json(result?.[0]);
         });
     } catch (error) {
+        console.log("Error fetching hero:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -17,11 +18,12 @@ const updateHero = (req, res) => {
     try {
         const { heroTitle, heroSubtitle } = req.body;
         const query = "UPDATE site_content SET hero_title = ?, hero_subtitle = ? WHERE id = 1";
-        db.query(query, [heroTitle, heroSubtitle], (err) => {
+        db?.query(query, [heroTitle, heroSubtitle], (err) => {
             if (err) return res.status(500).json({ message: "DB update error" });
             res.json({ success: true, message: "Hero section updated!" });
         });
     } catch (error) {
+        console.log("Error updating hero:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -34,7 +36,7 @@ const addShowcase = (req, res) => {
             return res.status(400).json({ message: "No files uploaded" });
         }
 
-        const files = req.files.map((file) => [file.filename]); // array of [filename]
+        const files = req?.files?.map((file) => [file.filename]); // array of [filename]
 
         const query = "INSERT INTO showcase_images (filename) VALUES ?";
         db.query(query, [files], (err) => {
@@ -42,6 +44,7 @@ const addShowcase = (req, res) => {
             res.json({ success: true, message: "Images uploaded!", files });
         });
     } catch (error) {
+        console.log("Error adding showcase images:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -51,11 +54,12 @@ const addShowcase = (req, res) => {
 const showcase= (req, res) => {
     try {
         const query = "SELECT * FROM showcase_images";
-        db.query(query, (err, results) => {
+        db?.query(query, (err, results) => {
             if (err) return res.status(500).json({ message: "DB fetch error" });
             res.json(results);
         });
     } catch (error) {
+        console.log("Error fetching showcase images:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -67,19 +71,20 @@ const deleteShowcaseById = (req, res) => {
     try {
         const id = req.params.id;
         const query = "SELECT filename FROM showcase_images WHERE id = ?";
-        db.query(query, [id], (err, results) => {
+        db?.query(query, [id], (err, results) => {
             if (err || results.length === 0)
             return res.status(404).json({ message: "Not found" });
 
             const filename = results[0].filename;
             fs.unlinkSync(`uploads/${filename}`); // delete file from system
 
-            db.query("DELETE FROM showcase_images WHERE id = ?", [id], (err2) => {
-            if (err2) return res.status(500).json({ message: "DB delete error" });
-            res.json({ success: true, message: "Image deleted!" });
+            db?.query("DELETE FROM showcase_images WHERE id = ?", [id], (err2) => {
+                if (err2) return res.status(500).json({ message: "DB delete error" });
+                res.json({ success: true, message: "Image deleted!" });
             });
         });
     } catch (error) {
+        console.log("Error deleting showcase by id:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -89,7 +94,7 @@ const deleteShowcaseById = (req, res) => {
 const services = (req, res) => {
     try {
         const query = "SELECT * FROM services";
-        db.query(query, (err, results) => {
+        db?.query(query, (err, results) => {
             if (err) return res.status(500).json({ message: "DB fetch error" });
 
             const services = results.map((s) => {
@@ -112,6 +117,7 @@ const services = (req, res) => {
             res.json(services);
         });
     } catch (error) {
+        console.log("Error fetching services:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -126,11 +132,12 @@ const addServices = (req, res) => {
         const featuresArray = Array.isArray(features) ? features : features.split(",").map(f => f.trim());
 
         const query = "INSERT INTO services (title, description, icon, features) VALUES (?, ?, ?, ?)";
-        db.query(query, [title, description, icon, JSON.stringify(featuresArray)], (err) => {
+        db?.query(query, [title, description, icon, JSON.stringify(featuresArray)], (err) => {
             if (err) return res.status(500).json({ message: "DB insert error" });
             res.json({ success: true, message: "Service added!" });
         });
     } catch (error) {
+        console.log("Error adding service:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -139,12 +146,12 @@ const addServices = (req, res) => {
 }
 const updateServiceById = (req, res) => {
     try {
-        const { title, description, icon, features } = req.body;
+        const { title, description, icon, features } = req?.body;
         const { id } = req.params;
 
         const query =
         "UPDATE services SET title = ?, description = ?, icon = ?, features = ? WHERE id = ?";
-        db.query(
+        db?.query(
         query,
         [title, description, icon, JSON.stringify(features), id],
         (err) => {
@@ -153,6 +160,7 @@ const updateServiceById = (req, res) => {
         }
         );
     } catch (error) {
+        console.log("Error updating service:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -162,11 +170,12 @@ const updateServiceById = (req, res) => {
 
 const deleteServiceById = (req, res) => {
     try {
-        db.query("DELETE FROM services WHERE id = ?", [req.params.id], (err) => {
+        db?.query("DELETE FROM services WHERE id = ?", [req?.params?.id], (err) => {
             if (err) return res.status(500).json({ message: "DB delete error" });
             res.json({ success: true, message: "Service deleted!" });
         });
     } catch (error) {
+        console.log("Error deleting service:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -177,11 +186,12 @@ const deleteServiceById = (req, res) => {
 const getPavilions = (req, res) => {
     try {
         const query = "SELECT * FROM pavilions";
-        db.query(query, (err, results) => {
+        db?.query(query, (err, results) => {
         if (err) return res.status(500).json({ message: "DB fetch error" });
         res.json(results);
         });
     } catch (error) {
+        console.log("Error fetching pavilions:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -192,14 +202,15 @@ const getPavilions = (req, res) => {
 const addPavilion = (req, res) => {
     try {
         const { state, description } = req.body;
-        const image = req.file ? req.file.filename : null;
+        const image = req?.file ? req?.file?.filename : null;
 
         const query = "INSERT INTO pavilions (state, description, image) VALUES (?, ?, ?)";
-        db.query(query, [state, description, image], (err) => {
+        db?.query(query, [state, description, image], (err) => {
             if (err) return res.status(500).json({ message: "DB insert error" });
             res.json({ success: true, message: "Pavilion added!" });
         });
     } catch (error) {
+        console.log("Error adding pavilion:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -209,18 +220,19 @@ const addPavilion = (req, res) => {
 
 const updatePavilionById = (req, res) => {
     try {
-        const id = req.params.id;
-        db.query("SELECT image FROM pavilions WHERE id = ?", [id], (err, results) => {
+        const id = req?.params?.id;
+        db?.query("SELECT image FROM pavilions WHERE id = ?", [id], (err, results) => {
             if (err || results.length === 0) return res.status(404).json({ message: "Not found" });
 
-            if (results[0].image) fs.unlinkSync(`uploads/${results[0].image}`);
+            if (results?.[0]?.image) fs.unlinkSync(`uploads/${results?.[0]?.image}`);
 
-            db.query("DELETE FROM pavilions WHERE id = ?", [id], (err2) => {
+            db?.query("DELETE FROM pavilions WHERE id = ?", [id], (err2) => {
             if (err2) return res.status(500).json({ message: "DB delete error" });
             res.json({ success: true, message: "Pavilion deleted!" });
             });
         });
     } catch (error) {
+        console.log("Error updating pavilion by id:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
@@ -230,8 +242,12 @@ const updatePavilionById = (req, res) => {
 
 const deletePavilionById = (req, res) => {
     try {
-        
+        db?.query("DELETE FROM pavilions WHERE id = ?", [req?.params?.id], (err) => {
+            if (err) return res.status(500).json({ message: "DB delete error" });
+            res.json({ success: true, message: "Pavilion deleted!" });
+        });
     } catch (error) {
+        console.log("Error deleting pavilion:", error);
         return res.status(500).json({ 
             success:false,
             message: "Internal Server error" 
