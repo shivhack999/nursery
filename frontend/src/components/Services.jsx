@@ -5,12 +5,12 @@ export default function Services() {
   const [services, setServices] = useState([]);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/services`)
+    fetch(`${BASE_URL}/frontend/services`)
       .then((res) => res.json())
       .then((data) => setServices(data))
       .catch((err) => console.error("Fetch error:", err));
-  }, []);
 
+  }, []);
   return (
     <section id="services" className="py-20 bg-gray-50">
       <div className="container mx-auto px-6">
@@ -24,21 +24,21 @@ export default function Services() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service) => (
             <div
-              key={service.id}
+              key={service?.id}
               className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
             >
-              <div className="text-4xl mb-4">{service.icon || "❓"}</div>
+              <div className="text-4xl mb-4">{service?.icon || "❓"}</div>
               <h3 className="text-2xl font-semibold text-green-600 mb-4">
-                {service.title || "Untitled Service"}
+                {service?.title || "Untitled Service"}
               </h3>
               <p className="text-gray-600 mb-6">
-                {service.description || "No description available"}
+                {service?.description || "No description available"}
               </p>
 
               <div className="border-t pt-4">
-                {Array.isArray(service.features) && service.features.length > 0 ? (
+                {Array.isArray(service?.features) && service?.features.length > 0 ? (
                   <ul className="list-disc list-inside space-y-2">
-                    {service.features.map((f, i) => (
+                    {service?.features?.map((f, i) => (
                       <li key={i} className="text-gray-600">
                         <span className="text-green-500 mr-2">✓</span>
                         {f}

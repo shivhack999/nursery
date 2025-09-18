@@ -12,7 +12,7 @@ export default function WhyChooseUs() {
       <div className="container mx-auto px-6 text-center">
         <h2 className="text-3xl font-bold text-green-700 mb-10">Why Choose Us</h2>
         <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
-          {points.map((p, i) => (
+          {points?.map((p, i) => (
             <div key={i} className="p-4 border rounded bg-green-50 shadow">
               {p}
             </div>

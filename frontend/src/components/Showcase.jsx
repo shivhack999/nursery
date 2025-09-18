@@ -1,20 +1,22 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState, useRef } from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react"; // icons
 
 export default function Showcase() {
   const BASE_URL = import.meta.env.VITE_API_BASE_URL;
+  const IMAGE_URL = import.meta.env.VITE_API_BASE_URL_FOR_IMAGES;
   const [images, setImages] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const scrollRef = useRef(null);
 
   useEffect(() => {
-    fetch(`${BASE_URL}/showcase`)
+    fetch(`${BASE_URL}/frontend/showcase`)
       .then((res) => res.json())
       .then((data) => setImages(data))
       .catch((err) => console.error(err));
   }, []);
-
+  
   // scroll functions
   const scrollLeft = () => {
     if (scrollRef.current) {
@@ -42,9 +44,9 @@ export default function Showcase() {
                 {/* Scroll container */}
                 <div ref={scrollRef} className="overflow-x-auto scrollbar-hide">
                   <div className="flex gap-6 min-w-max">
-                    {images.slice(0, 6).map((img) => (
+                    {images?.slice(0, 6).map((img) => (
                       <motion.div
-                        key={img.id}
+                        key={img?.id}
                         initial={{ opacity: 0, x: 20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.5 }}
@@ -52,7 +54,7 @@ export default function Showcase() {
                       >
                         <div className="overflow-hidden rounded-lg shadow-md">
                           <img
-                            src={`${BASE_URL}/uploads/${img.filename}`}
+                            src={`${IMAGE_URL}/uploads/${img?.filename}`}
                             alt="Showcase"
                             className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                           />
@@ -98,14 +100,14 @@ export default function Showcase() {
               >
                 {images.map((img) => (
                   <motion.div
-                    key={img.id}
+                    key={img?.id}
                     initial={{ opacity: 0, scale: 0.9 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="relative group"
                   >
                     <div className="overflow-hidden rounded-lg shadow-md">
                       <img
-                        src={`${BASE_URL}/uploads/${img.filename}`}
+                        src={`${IMAGE_URL}/uploads/${img?.filename}`}
                         alt="Showcase"
                         className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-110"
                       />

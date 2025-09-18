@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { motion } from "framer-motion";
 
 const clients = [
@@ -79,7 +80,7 @@ export default function Clients() {
           viewport={{ once: true, amount: 0.2 }}
           className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"
         >
-          {clients.map((client, index) => (
+          {clients?.map((client, index) => (
             <motion.div
               key={index}
               variants={itemVariants}
