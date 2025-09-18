@@ -41,31 +41,45 @@ export default function Navbar() {
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 py-4">
-        <div className="relative h-12">
-          <AnimatePresence mode="wait">
-            {scrolled ? (
-              <motion.img
-                key="logo"
-                src="/images/logo1.png"
-                alt="Diamond Enterprises Logo"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="h-full w-auto object-contain"
-              />
-            ) : (
-              <motion.h1 
-                key="text"
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -20 }}
-                className="text-2xl font-bold text-white"
-              >
-                Diamond Enterprises
-              </motion.h1>
-            )}
-          </AnimatePresence>
-        </div>
+        <div className="relative h-10 flex items-center ">
+  <AnimatePresence mode="wait">
+    {scrolled ? (
+      <>
+        {/* Logo */}
+        <motion.img
+          key="logo"
+          src="/images/logo1.png"
+          alt="Diamond Enterprises Logo"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="h-full w-auto object-contain"
+        />
+        {/* Text beside logo in green */}
+        <motion.span
+          key="logo-text"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          className="text-xl font-bold text-green-500"
+        >
+          Diamond Enterprises
+        </motion.span>
+      </>
+    ) : (
+      <motion.h1
+        key="text"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -20 }}
+        className="text-2xl font-bold text-white"
+      >
+        Diamond Enterprises
+      </motion.h1>
+    )}
+  </AnimatePresence>
+</div>
+
         <div className="hidden md:flex gap-8">
           {links.map((link) => (
             <motion.a
